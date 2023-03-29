@@ -37,21 +37,11 @@ func newRegisters(a *guiApp) *registers {
 	r.regBtn = make([]*widget.Button, r.regNum)
 	for i := range r.regBtn {
 		i := i // save local copy
-		r.regBtn[i] = widget.NewButton(
-			// fmt.Sprintf("R%d: ><", i),
-			"",
-			func() { r.regCB(i) },
-		)
+		r.regBtn[i] = widget.NewButton("", func() { r.regCB(i) })
 	}
 
 	// assemble them
-	r.container = container.NewVBox(
-		r.regBtn[0],
-		r.regBtn[1],
-		r.regBtn[2],
-		r.regBtn[3],
-		r.regBtn[4],
-	)
+	r.container = utils.NewVBox(r.regBtn...)
 
 	return r
 }
