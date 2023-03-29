@@ -1,9 +1,10 @@
 package model
 
 import (
-	"clippy/utils"
 	"container/list"
 	"log"
+
+	"clippy/utils"
 )
 
 // --------------------------------------------------------------------------------
@@ -18,10 +19,10 @@ type GuiModel struct {
 }
 
 // Create the model.
-func NewModel() *GuiModel {
+func NewModel(regNum int) *GuiModel {
 	m := &GuiModel{
 		lg:         utils.GetStdLogger(""),
-		regNum:     5,
+		regNum:     regNum,
 		RegContent: list.New(),
 	}
 	return m

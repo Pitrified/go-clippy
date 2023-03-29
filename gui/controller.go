@@ -1,9 +1,9 @@
 package gui
 
 import (
-	"clippy/model"
 	"log"
 
+	"clippy/model"
 	"clippy/utils"
 )
 
@@ -15,7 +15,7 @@ type guiController struct {
 }
 
 // Create a new controller, linked to the view and the model.
-func NewController() *guiController {
+func NewController(regNum int) *guiController {
 
 	// create the controller
 	c := &guiController{
@@ -23,10 +23,10 @@ func NewController() *guiController {
 	}
 
 	// create the view
-	c.a = newApp(c)
+	c.a = newApp(c, regNum)
 
 	// initialize the model
-	c.m = model.NewModel()
+	c.m = model.NewModel(regNum)
 
 	// update all the moving parts to match the current state:
 	// the model has valid default values,

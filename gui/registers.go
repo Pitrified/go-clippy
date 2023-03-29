@@ -6,7 +6,6 @@ import (
 	"log"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"golang.design/x/clipboard"
 
@@ -25,11 +24,11 @@ type registers struct {
 }
 
 // Create a new registers pack.
-func newRegisters(a *guiApp) *registers {
+func newRegisters(a *guiApp, regNum int) *registers {
 	r := &registers{
 		a:         a,
 		lg:        utils.GetStdLogger(""),
-		regNum:    5,
+		regNum:    regNum,
 		lastPaste: "",
 	}
 

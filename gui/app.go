@@ -23,7 +23,7 @@ type guiApp struct {
 	lg *log.Logger
 }
 
-func newApp(c *guiController) *guiApp {
+func newApp(c *guiController, regNum int) *guiApp {
 
 	// create the fyne app
 	fyneApp := app.NewWithID("com.pitrified.clippy")
@@ -41,7 +41,7 @@ func newApp(c *guiController) *guiApp {
 	a.mainWin.Canvas().SetOnTypedKey(a.typedKey)
 
 	// create the registers
-	a.registers = newRegisters(a)
+	a.registers = newRegisters(a, regNum)
 
 	// create the UI, using placeholders everywhere
 	a.buildUI()
