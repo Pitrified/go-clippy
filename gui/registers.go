@@ -18,7 +18,7 @@ type registers struct {
 
 	regNum    int
 	regBtn    []*widget.Button
-	lastPaste string
+	lastPaste *utils.SafeString
 
 	lg *log.Logger
 }
@@ -29,7 +29,7 @@ func newRegisters(a *guiApp, regNum int) *registers {
 		a:         a,
 		lg:        utils.GetStdLogger(""),
 		regNum:    regNum,
-		lastPaste: "",
+		lastPaste: utils.NewSafeString(""),
 	}
 
 	// create the buttons
@@ -58,11 +58,10 @@ func (r *registers) clipboardWatch() {
 	ch := clipboard.Watch(context.TODO(), clipboard.FmtText)
 	for data := range ch {
 		strData := string(data)
-		if strData == r.lastPaste {
+		if strData == r.lastPaste.Get() {
 			continue
 		}
 		r.lg.Println("Clipboard changed:", utils.FmtRegContent(strData))
-		r.lastPaste = strData
 		r.a.c.pasted(strData)
 	}
 }
@@ -103,9 +102,13 @@ func (r *registers) updateRegContent(regContent *list.List) {
 		return
 	}
 	newCont := maybeFront.Value.(string)
-	// might have race condition here who knows
-	// mark the last paste so we don't get another paste event
-	r.lastPaste = newCont
+
+	// mark the last paste
+	r.lastPaste.Set(newCont)
+
+	// the clipboard.Watch will fire
+	// but it will be blocked by the lastPaste check
+	r.lg.Println("Writing:", newCont)
 	clipboard.Write(clipboard.FmtText, []byte(newCont))
 
 }
